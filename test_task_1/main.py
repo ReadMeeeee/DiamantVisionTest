@@ -1,4 +1,4 @@
-from src import validate_emails
+from test_task_1.src import validate_emails
 
 
 if __name__ == "__main__":

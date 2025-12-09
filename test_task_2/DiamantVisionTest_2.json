@@ -1,0 +1,137 @@
+{
+  "name": "DiamantVisionTest_2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "2cb615af-e463-4bfe-8d4a-4ab197e5de49",
+        "options": {
+          "responseData": "success"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -432,
+        -32
+      ],
+      "id": "1d82849f-94ff-4c3b-922b-c60b4f169f7b",
+      "name": "Webhook",
+      "webhookId": "2cb615af-e463-4bfe-8d4a-4ab197e5de49"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "binaryPropertyName": "file",
+        "destinationKey": "text_from_txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -224,
+        -32
+      ],
+      "id": "312c341b-69a9-4747-ada3-41ace28dba76",
+      "name": "Извлечение текста из файла"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "92f66ab4-f8a3-4563-b41a-2318b038069c",
+              "name": "body.chat_id",
+              "value": "={{ $('Webhook').item.json.body.chat_id }}",
+              "type": "string"
+            },
+            {
+              "id": "8945cbec-69cc-45d1-ae4f-9e7e2f098dd3",
+              "name": "text_from_txt",
+              "value": "={{ $json.text_from_txt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -16,
+        -32
+      ],
+      "id": "782f39cc-636e-4a85-b1af-991e9c28fc2e",
+      "name": "Формирование пакета на отправку"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.body.chat_id }}",
+        "text": "={{ $json.text_from_txt }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        192,
+        -32
+      ],
+      "id": "7baaf7ff-3b0b-46f3-8295-5a24bb7f6d97",
+      "name": "Отправка текстового сообщения",
+      "webhookId": "2a09f3e6-34f6-437b-9bf3-68dce0cc438a",
+      "credentials": {
+        "telegramApi": {
+          "id": "CTalNofYPlUijs6J",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Извлечение текста из файла",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Извлечение текста из файла": {
+      "main": [
+        [
+          {
+            "node": "Формирование пакета на отправку",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Формирование пакета на отправку": {
+      "main": [
+        [
+          {
+            "node": "Отправка текстового сообщения",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ef15ff44-370c-4f60-a77a-617e5dbe3ae4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "82c91a915c7f07bbb31d0a64e229525624bb9118fcdee34e2f18a6ae1604cbee"
+  },
+  "id": "KaJtItmXSzoM7003",
+  "tags": []
+}

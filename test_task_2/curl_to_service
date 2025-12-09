@@ -1,0 +1,4 @@
+curl -X POST
+-F "chat_id=ПОЛУЧАТЕЛЬ"
+-F "file=@message_text.txt"
+http://localhost:5678/webhook-test/2cb615af-e463-4bfe-8d4a-4ab197e5de49
